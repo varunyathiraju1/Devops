@@ -1,0 +1,38 @@
+--
+
+- hosts: all
+
+  become: true
+
+
+
+  tasks:
+
+  - name: create docker image using war file
+
+    command: docker build -t simple-devops-images:latest .
+
+    args:
+
+      chdir: /opt/docker
+
+
+
+  - name: create tag to image
+
+    command: docker tag simple-devops-images rkdevops2018/simple-devops-images
+
+
+
+  - name: push image on to dockerhub
+
+    command: docker push rkdevops2018/simple-devops-images
+
+
+
+  - name: remove docker images from ansible server
+
+    command: docker rmi simple-devops-images:latest rkdevops2018/simple-devops-images
+
+    ignore_errors: yes
+
